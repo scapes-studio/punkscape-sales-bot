@@ -2,6 +2,7 @@
   "license": "MIT",
   "scripts": {
     "heroku-postdeploy": "yarn ts-node checkSales.ts",
+    "build": "echo \"No build required\" && exit 0",
     "start": "npx ts-node checkSales.ts"
   },
   "dependencies": {
