@@ -20,23 +20,32 @@ const  discordSetup = async (): Promise<TextChannel> => {
   })
 }
 
-const buildMessage = (sale: any) => (
-  new Discord.MessageEmbed()
-	.setColor('#0099ff')
-	.setTitle(sale.asset.name + ' sold!')
-	.setURL(sale.asset.permalink)
-	.setAuthor('OpenSea Bot', 'https://files.readme.io/566c72b-opensea-logomark-full-colored.png', 'https://github.com/sbauch/opensea-discord-bot')
-	.setThumbnail(sale.asset.collection.image_url)
-	.addFields(
-		{ name: 'Name', value: sale.asset.name },
-		{ name: 'Amount', value: `${ethers.utils.formatEther(sale.total_price || '0')}${ethers.constants.EtherSymbol}`},
-		{ name: 'Buyer', value: sale?.winner_account?.address, },
-		{ name: 'Seller', value: sale?.seller?.address,  },
-	)
-  .setImage(sale.asset.image_url)
-	.setTimestamp(Date.parse(`${sale?.created_date}Z`))
-	.setFooter('Sold on OpenSea', 'https://files.readme.io/566c72b-opensea-logomark-full-colored.png')
+const shortAddress = address => (
+  address.substr(0, 6) +
+  '...' +
+  address.substr(address.length - 4, 4)
 )
+
+const buildMessage = (sale: any) => {
+  const seller = sale?.seller?.user?.username || shortAddress(sale?.seller?.address)
+  const buyer = sale?.winner_account?.user?.username || shortAddress(sale?.winner_account?.address)
+  const price = ethers.utils.formatEther(sale.total_price || '0')
+  const usdPrice = (parseFloat(price) * parseFloat(sale?.payment_token?.usd_price || 3200))
+    .toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
+
+  return new Discord.MessageEmbed()
+      .setColor('#F2C536')
+      .setTitle(sale.asset.name + ' sold!')
+      .setURL(sale.asset.permalink)
+      .addFields(
+        { name: 'Amount', value: `${price} ${ethers.constants.EtherSymbol} ($${usdPrice} USD)` },
+        { name: 'Buyer', value: `[${buyer}](https://opensea.io/${sale?.winner_account?.address})`, },
+        { name: 'Seller', value: `[${seller}](https://opensea.io/${sale?.seller?.address})`,  },
+      )
+      .setImage(sale.asset.image_url)
+      .setTimestamp(Date.parse(`${sale?.created_date}Z`))
+      .setFooter('Sold on OpenSea')
+}
 
 async function main() {
   const channel = await discordSetup();
