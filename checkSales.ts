@@ -34,7 +34,7 @@ const buildMessage = (sale: any) => {
     .toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
 
   return new Discord.MessageEmbed()
-      .setColor('#F2C536')
+      .setColor('#eeeeee')
       .setTitle(sale.asset.name + ' sold!')
       .setURL(sale.asset.permalink)
       .addFields(
