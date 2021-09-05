@@ -42,7 +42,7 @@ const buildMessage = (sale: any) => {
         { name: 'Buyer', value: `[${buyer}](https://opensea.io/${sale?.winner_account?.address})`, },
         { name: 'Seller', value: `[${seller}](https://opensea.io/${sale?.seller?.address})`,  },
       )
-      .setImage(sale.asset.image_url)
+      .setImage(`https://cdn.punkscape.xyz/onedaypunks/standalone/${sale.asset.token_id}.png`)
       .setTimestamp(Date.parse(`${sale?.created_date}Z`))
       .setFooter('Sold on OpenSea')
 }
