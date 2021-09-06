@@ -2,6 +2,7 @@ import 'dotenv/config';
 import Discord, { TextChannel } from 'discord.js';
 import fetch from 'node-fetch';
 import { ethers } from "ethers";
+import shortAddress from './helpers/short-address';
 
 const OPENSEA_SHARED_STOREFRONT_ADDRESS = '0x495f947276749Ce646f68AC8c248420045cb7b5e';
 
@@ -19,12 +20,6 @@ const  discordSetup = async (): Promise<TextChannel> => {
     });
   })
 }
-
-const shortAddress = address => (
-  address.substr(0, 6) +
-  '...' +
-  address.substr(address.length - 4, 4)
-)
 
 const buildMessage = (sale: any) => {
   const seller = sale?.seller?.user?.username || shortAddress(sale?.seller?.address)
