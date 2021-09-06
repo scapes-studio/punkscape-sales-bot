@@ -1,0 +1,407 @@
+{
+    "totalAmount": "27.0557",
+    "buyers": [
+        {
+            "tokenId": "3100",
+            "buyer": "0x86462c40c07981f0900e0ad3df5d757a9dc4a184",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/3100",
+            "price": "5.0 Ξ ($19,710.05 USD)"
+        },
+        {
+            "tokenId": "2386",
+            "buyer": "0x57f350127d0625d472da8c3a938a45920cfb745c",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/2386",
+            "price": "3.33 Ξ ($13,126.89 USD)"
+        },
+        {
+            "tokenId": "8498",
+            "buyer": "0x3e960bbbd921e040b0c90a31746d95c9b5dd12eb",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/8498",
+            "price": "3.0 Ξ ($11,826.03 USD)"
+        },
+        {
+            "tokenId": "6089",
+            "buyer": "thesam",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/6089",
+            "price": "2.0 Ξ ($7,884.02 USD)"
+        },
+        {
+            "tokenId": "372",
+            "buyer": "0x3b35524aedf141f3bce124a12fd928f80609e1a1",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/372",
+            "price": "2.0 Ξ ($7,884.02 USD)"
+        },
+        {
+            "tokenId": "4178",
+            "buyer": "0x7b9997220d33d143bdc131acad832c7ee00b0feb",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/4178",
+            "price": "1.99 Ξ ($7,844.60 USD)"
+        },
+        {
+            "tokenId": "4464",
+            "buyer": "0x0a79ffd132fa5720ec7123a2bd46bf6372475c19",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/4464",
+            "price": "1.5 Ξ ($5,913.02 USD)"
+        },
+        {
+            "tokenId": "5905",
+            "buyer": "WilhelmTell",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/5905",
+            "price": "1.0 Ξ ($3,942.01 USD)"
+        },
+        {
+            "tokenId": "2140",
+            "buyer": "0x3a5a8c837d74f16fa75c01087310d03125e66231",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/2140",
+            "price": "1.0 Ξ ($3,942.01 USD)"
+        },
+        {
+            "tokenId": "5412",
+            "buyer": "0x7cb05e2a8bd3beac988c9b8f6470eb054e08d47c",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/5412",
+            "price": "1.0 Ξ ($3,942.01 USD)"
+        },
+        {
+            "tokenId": "2711",
+            "buyer": "0x3109d2ddc44823b8951df2f8c161d2d905332949",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/2711",
+            "price": "0.99 Ξ ($3,902.59 USD)"
+        },
+        {
+            "tokenId": "5577",
+            "buyer": "0x9fb4bcc1d6e58b882e7397ae5b047eac68461568",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/5577",
+            "price": "0.89 Ξ ($3,508.39 USD)"
+        },
+        {
+            "tokenId": "7458",
+            "buyer": "TheCryptoTherapist",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/7458",
+            "price": "0.6969 Ξ ($2,747.19 USD)"
+        },
+        {
+            "tokenId": "8386",
+            "buyer": "19A22B",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/8386",
+            "price": "0.69 Ξ ($2,719.99 USD)"
+        },
+        {
+            "tokenId": "2338",
+            "buyer": "0x8501fc1d5444f6be4f3e0215a1b3ad8752701054",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/2338",
+            "price": "0.65 Ξ ($2,562.31 USD)"
+        },
+        {
+            "tokenId": "714",
+            "buyer": "xxxloot",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/714",
+            "price": "0.49 Ξ ($1,931.58 USD)"
+        },
+        {
+            "tokenId": "5622",
+            "buyer": "0xa9883cd7ddd66376547af299c512c551a3a0a27e",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/5622",
+            "price": "0.25 Ξ ($985.50 USD)"
+        },
+        {
+            "tokenId": "2426",
+            "buyer": "0x0fd83a65ff21bae3081fb8ad5aa8425a0f26a32f",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/2426",
+            "price": "0.2 Ξ ($788.40 USD)"
+        },
+        {
+            "tokenId": "7610",
+            "buyer": "dontdoxme2021",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/7610",
+            "price": "0.2 Ξ ($788.40 USD)"
+        },
+        {
+            "tokenId": "3555",
+            "buyer": "0x866f218a42f91327df8eb1ed25c2ea0f748e8332",
+            "openSea": "https://opensea.io/assets/0x5537d90a4a2dc9d9b37bab49b490cf67d4c54e91/3555",
+            "price": "0.1788 Ξ ($704.83 USD)"
+        }
+    ],
+    "sales": [
+        {
+            "tokenId": "3100",
+            "timestamp": "2021-09-04T17:53:47.382551",
+            "seller": {
+                "address": "0x6a68794281e4f60e5747f1df785f5983fe2ab36b",
+                "name": "repuIse"
+            },
+            "buyer": {
+                "address": "0x86462c40c07981f0900e0ad3df5d757a9dc4a184",
+                "name": "0x8646...a184"
+            },
+            "price": "5.0",
+            "usdPrice": "19,710.05"
+        },
+        {
+            "tokenId": "2386",
+            "timestamp": "2021-09-05T03:02:18.353334",
+            "seller": {
+                "address": "0x3fd6f3430c86bd89f879c1b0e45ca586b31a83ab",
+                "name": "0x3fd6...83ab"
+            },
+            "buyer": {
+                "address": "0x57f350127d0625d472da8c3a938a45920cfb745c",
+                "name": "0x57f3...745c"
+            },
+            "price": "3.33",
+            "usdPrice": "13,126.89"
+        },
+        {
+            "tokenId": "8498",
+            "timestamp": "2021-09-04T18:43:02.201474",
+            "seller": {
+                "address": "0x43c574dbe7b62120a65af6688d2d57486ae70258",
+                "name": "0x43c5...0258"
+            },
+            "buyer": {
+                "address": "0x3e960bbbd921e040b0c90a31746d95c9b5dd12eb",
+                "name": "0x3e96...12eb"
+            },
+            "price": "3.0",
+            "usdPrice": "11,826.03"
+        },
+        {
+            "tokenId": "6089",
+            "timestamp": "2021-09-04T17:44:46.546824",
+            "seller": {
+                "address": "0x9ea8ec666466dcb73a1b76891a58215853f656fb",
+                "name": "0x9ea8...56fb"
+            },
+            "buyer": {
+                "address": "0x32cbd4cb8147ae61401626caebcf193166ca057f",
+                "name": "thesam"
+            },
+            "price": "2.0",
+            "usdPrice": "7,884.02"
+        },
+        {
+            "tokenId": "372",
+            "timestamp": "2021-09-04T18:29:08.482208",
+            "seller": {
+                "address": "0xe8a60b464bdf9568629397c02935aa2134016671",
+                "name": "Elwinnnf"
+            },
+            "buyer": {
+                "address": "0x3b35524aedf141f3bce124a12fd928f80609e1a1",
+                "name": "0x3b35...e1a1"
+            },
+            "price": "2.0",
+            "usdPrice": "7,884.02"
+        },
+        {
+            "tokenId": "4178",
+            "timestamp": "2021-09-04T18:49:36.771826",
+            "seller": {
+                "address": "0x5a610aefafcf063ba93044301c6601706047533c",
+                "name": "JimLeeNFT"
+            },
+            "buyer": {
+                "address": "0x7b9997220d33d143bdc131acad832c7ee00b0feb",
+                "name": "0x7b99...0feb"
+            },
+            "price": "1.99",
+            "usdPrice": "7,844.60"
+        },
+        {
+            "tokenId": "4464",
+            "timestamp": "2021-09-05T15:13:04.534322",
+            "seller": {
+                "address": "0xd738bfdabea9c46a6e12314a6b3892ee321b8413",
+                "name": "0xd738...8413"
+            },
+            "buyer": {
+                "address": "0x0a79ffd132fa5720ec7123a2bd46bf6372475c19",
+                "name": "0x0a79...5c19"
+            },
+            "price": "1.5",
+            "usdPrice": "5,913.02"
+        },
+        {
+            "tokenId": "5905",
+            "timestamp": "2021-09-04T17:07:31.160282",
+            "seller": {
+                "address": "0x27018caa7ac03db78377c742921a6a29fec63e65",
+                "name": "Protogrotosof"
+            },
+            "buyer": {
+                "address": "0x4e248177e428b97b1462a2056a8000c58c4dae05",
+                "name": "WilhelmTell"
+            },
+            "price": "1.0",
+            "usdPrice": "3,942.01"
+        },
+        {
+            "tokenId": "2140",
+            "timestamp": "2021-09-04T18:13:54.181009",
+            "seller": {
+                "address": "0x39c9b8a605bd8222961c8a8c87bb1c3feb8c1c1b",
+                "name": "W0lf"
+            },
+            "buyer": {
+                "address": "0x3a5a8c837d74f16fa75c01087310d03125e66231",
+                "name": "0x3a5a...6231"
+            },
+            "price": "1.0",
+            "usdPrice": "3,942.01"
+        },
+        {
+            "tokenId": "5412",
+            "timestamp": "2021-09-04T18:34:05.600374",
+            "seller": {
+                "address": "0x931d98de83341eb2ae20f6a4c3cf820cb66a6e66",
+                "name": "0x931d...6e66"
+            },
+            "buyer": {
+                "address": "0x7cb05e2a8bd3beac988c9b8f6470eb054e08d47c",
+                "name": "0x7cb0...d47c"
+            },
+            "price": "1.0",
+            "usdPrice": "3,942.01"
+        },
+        {
+            "tokenId": "2711",
+            "timestamp": "2021-09-04T19:23:08.480563",
+            "seller": {
+                "address": "0xd3085d43d3ecec98c3ad560c6ed7be62cfa3341d",
+                "name": "Ashenfox"
+            },
+            "buyer": {
+                "address": "0x3109d2ddc44823b8951df2f8c161d2d905332949",
+                "name": "0x3109...2949"
+            },
+            "price": "0.99",
+            "usdPrice": "3,902.59"
+        },
+        {
+            "tokenId": "5577",
+            "timestamp": "2021-09-05T11:28:52.646716",
+            "seller": {
+                "address": "0x81bd96e7e39611b0bee5f9743b0d4ddaf3f919b2",
+                "name": "0x81bd...19b2"
+            },
+            "buyer": {
+                "address": "0x9fb4bcc1d6e58b882e7397ae5b047eac68461568",
+                "name": "0x9fb4...1568"
+            },
+            "price": "0.89",
+            "usdPrice": "3,508.39"
+        },
+        {
+            "tokenId": "7458",
+            "timestamp": "2021-09-05T05:13:35.849444",
+            "seller": {
+                "address": "0xeb42523a092ceafb6b5b52b0a88d3f88154a3494",
+                "name": "0xeb42...3494"
+            },
+            "buyer": {
+                "address": "0x5ae92b69725fab29524ee91ff5127a7159bf9d95",
+                "name": "TheCryptoTherapist"
+            },
+            "price": "0.6969",
+            "usdPrice": "2,747.19"
+        },
+        {
+            "tokenId": "8386",
+            "timestamp": "2021-09-04T18:04:23.746236",
+            "seller": {
+                "address": "0x81870dfd40809d070957f6d510f775fa1cc5df01",
+                "name": "TheCryptoPirate"
+            },
+            "buyer": {
+                "address": "0x19a22b62bba26b3146d599be743a2d65bf5ace2a",
+                "name": "19A22B"
+            },
+            "price": "0.69",
+            "usdPrice": "2,719.99"
+        },
+        {
+            "tokenId": "2338",
+            "timestamp": "2021-09-04T20:49:31.694945",
+            "seller": {
+                "address": "0x120e30953b191998e13d670be4a6f3a7f181a060",
+                "name": "DCSC912"
+            },
+            "buyer": {
+                "address": "0x8501fc1d5444f6be4f3e0215a1b3ad8752701054",
+                "name": "0x8501...1054"
+            },
+            "price": "0.65",
+            "usdPrice": "2,562.31"
+        },
+        {
+            "tokenId": "714",
+            "timestamp": "2021-09-04T20:18:29.181878",
+            "seller": {
+                "address": "0xc05777d980ac1e138bb4c74ab72a64375814769e",
+                "name": "Gymnast544"
+            },
+            "buyer": {
+                "address": "0x4442c30a4785fed5d9aa8a2998358385ba52e37c",
+                "name": "xxxloot"
+            },
+            "price": "0.49",
+            "usdPrice": "1,931.58"
+        },
+        {
+            "tokenId": "5622",
+            "timestamp": "2021-09-04T18:20:49.868563",
+            "seller": {
+                "address": "0x2de238656638aefa241506db7b1246e6772e4bc8",
+                "name": "0x2de2...4bc8"
+            },
+            "buyer": {
+                "address": "0xa9883cd7ddd66376547af299c512c551a3a0a27e",
+                "name": "0xa988...a27e"
+            },
+            "price": "0.25",
+            "usdPrice": "985.50"
+        },
+        {
+            "tokenId": "2426",
+            "timestamp": "2021-09-04T19:44:26.636914",
+            "seller": {
+                "address": "0x98dc52684e201d2317e5a6f9419aeb89c5b8f1ba",
+                "name": "a2zkicks"
+            },
+            "buyer": {
+                "address": "0x0fd83a65ff21bae3081fb8ad5aa8425a0f26a32f",
+                "name": "0x0fd8...a32f"
+            },
+            "price": "0.2",
+            "usdPrice": "788.40"
+        },
+        {
+            "tokenId": "7610",
+            "timestamp": "2021-09-06T01:03:53.812059",
+            "seller": {
+                "address": "0x7776caea867683fb174b6b4fc47a2b31423b95e0",
+                "name": "feellineNFT"
+            },
+            "buyer": {
+                "address": "0xd0cc471eaecbf4c9615c928fffe76ede8f28978a",
+                "name": "dontdoxme2021"
+            },
+            "price": "0.2",
+            "usdPrice": "788.40"
+        },
+        {
+            "tokenId": "3555",
+            "timestamp": "2021-09-04T21:51:07.568414",
+            "seller": {
+                "address": "0x4a94d45157dbb9ba957c7e7e1b2d3cef8a56ecaf",
+                "name": "ryskamrr"
+            },
+            "buyer": {
+                "address": "0x866f218a42f91327df8eb1ed25c2ea0f748e8332",
+                "name": "0x866f...8332"
+            },
+            "price": "0.1788",
+            "usdPrice": "704.83"
+        }
+    ]
+}
