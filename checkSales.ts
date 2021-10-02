@@ -12,7 +12,7 @@ const  discordSetup = async (): Promise<TextChannel> => {
     ['DISCORD_BOT_TOKEN', 'DISCORD_CHANNEL_ID'].forEach((envVar) => {
       if (!process.env[envVar]) reject(`${envVar} not set`)
     })
-  
+
     discordBot.login(process.env.DISCORD_BOT_TOKEN);
     discordBot.on('ready', async () => {
       const channel = await discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID!);
@@ -37,7 +37,7 @@ const buildMessage = (sale: any) => {
         { name: 'Buyer', value: `[${buyer}](https://opensea.io/${sale?.winner_account?.address})`, },
         { name: 'Seller', value: `[${seller}](https://opensea.io/${sale?.seller?.address})`,  },
       )
-      .setImage(`https://cdn.punkscape.xyz/onedaypunks/standalone/${sale.asset.token_id}.png`)
+      .setImage(sale.asset.image_url)
       .setTimestamp(Date.parse(`${sale?.created_date}Z`))
       .setFooter('Sold on OpenSea')
 }
@@ -46,12 +46,12 @@ async function main() {
   const channel = await discordSetup();
   const seconds = process.env.SECONDS ? parseInt(process.env.SECONDS) : 3_600;
   const hoursAgo = (Math.round(new Date().getTime() / 1000) - (seconds)); // in the last hour, run hourly?
-  
+
   const params = new URLSearchParams({
     offset: '0',
     event_type: 'successful',
     only_opensea: 'false',
-    occurred_after: hoursAgo.toString(), 
+    occurred_after: hoursAgo.toString(),
     collection_slug: process.env.COLLECTION_SLUG!,
   })
 
@@ -61,17 +61,17 @@ async function main() {
 
   const openSeaResponse = await fetch(
     "https://api.opensea.io/api/v1/events?" + params).then((resp) => resp.json());
-    
+
   return await Promise.all(
     openSeaResponse?.asset_events?.reverse().map(async (sale: any) => {
       const message = buildMessage(sale);
       return channel.send(message)
     })
-  );   
+  );
 }
 
 main()
-  .then((res) =>{ 
+  .then((res) =>{
     if (!res.length) console.log("No recent sales")
     process.exit(0)
   })
