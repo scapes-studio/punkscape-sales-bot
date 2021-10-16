@@ -3,7 +3,9 @@
   "scripts": {
     "heroku-postdeploy": "yarn ts-node checkSales.ts",
     "build": "echo \"No build required\" && exit 0",
-    "start": "npx ts-node checkSales.ts"
+    "start": "npx ts-node checkSales.ts",
+    "sales:save": "npx ts-node saveSales.ts",
+    "sales:TIE": "npx ts-node tieSales.ts"
   },
   "dependencies": {
     "@types/node": "^14.14.36",

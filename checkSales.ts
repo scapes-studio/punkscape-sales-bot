@@ -33,13 +33,13 @@ const buildMessage = (sale: any) => {
       .setTitle(sale.asset.name + ' sold!')
       .setURL(sale.asset.permalink)
       .addFields(
-        { name: 'Amount', value: `${price} ${ethers.constants.EtherSymbol} ($${usdPrice} USD)` },
-        { name: 'Buyer', value: `[${buyer}](https://opensea.io/${sale?.winner_account?.address})`, },
-        { name: 'Seller', value: `[${seller}](https://opensea.io/${sale?.seller?.address})`,  },
+        { name: 'Amount', value: `${price} ${ethers.constants.EtherSymbol}`, inline: true }, //  ($${usdPrice} USD)
+        { name: 'Buyer', value: `[${buyer}](https://opensea.io/${sale?.winner_account?.address})`, inline: true },
+        { name: 'Seller', value: `[${seller}](https://opensea.io/${sale?.seller?.address})`, inline: true },
       )
       .setImage(sale.asset.image_url)
-      .setTimestamp(Date.parse(`${sale?.created_date}Z`))
-      .setFooter('Sold on OpenSea')
+      // .setTimestamp(Date.parse(`${sale?.created_date}Z`))
+      // .setFooter('Sold on OpenSea')
 }
 
 async function main() {
