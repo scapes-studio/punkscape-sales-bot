@@ -33,9 +33,9 @@ const buildMessage = (sale: any) => {
       .setTitle(sale.asset.name + ' sold!')
       .setURL(sale.asset.permalink)
       .addFields(
-        { name: 'Amount', value: `${price} ${ethers.constants.EtherSymbol}`, inline: true }, //  ($${usdPrice} USD)
+        { name: 'Amount', value: `${price} ${ethers.constants.EtherSymbol} ($${usdPrice} USD)`, inline: true },
+        // { name: 'Seller', value: `[${seller}](https://opensea.io/${sale?.seller?.address})`, inline: true },
         { name: 'Buyer', value: `[${buyer}](https://opensea.io/${sale?.winner_account?.address})`, inline: true },
-        { name: 'Seller', value: `[${seller}](https://opensea.io/${sale?.seller?.address})`, inline: true },
       )
       .setImage(sale.asset.image_url)
       // .setTimestamp(Date.parse(`${sale?.created_date}Z`))
