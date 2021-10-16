@@ -45,13 +45,13 @@ const buildMessage = (sale: any) => {
 async function main() {
   const channel = await discordSetup();
   const seconds = process.env.SECONDS ? parseInt(process.env.SECONDS) : 3_600;
-  const hoursAgo = (Math.round(new Date().getTime() / 1000) - (seconds)); // in the last hour, run hourly?
+  const timeAgo = (Math.round(new Date().getTime() / 1000) - (seconds)); // in the last hour, run hourly?
 
   const params = new URLSearchParams({
     offset: '0',
     event_type: 'successful',
     only_opensea: 'false',
-    occurred_after: hoursAgo.toString(),
+    occurred_after: timeAgo.toString(),
     limit: '160',
     collection_slug: process.env.COLLECTION_SLUG!,
   })
