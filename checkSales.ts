@@ -30,7 +30,7 @@ const buildMessage = (sale: any) => {
 
   return new Discord.MessageEmbed()
       .setColor('#eeeeee')
-      .setTitle(sale.asset.name + ' sold!')
+      .setTitle(sale.asset.name + ' sold')
       .setURL(sale.asset.permalink)
       .addFields(
         { name: 'Amount', value: `${price} ${ethers.constants.EtherSymbol} ($${usdPrice} USD)`, inline: true },
