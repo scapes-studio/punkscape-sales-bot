@@ -66,6 +66,7 @@ async function main() {
 
     if (!salesSince.length) {
       console.info(`No last sales since ${afterLastSale}`)
+      await delay(parseInt(process.env.SECONDS! || '60') * 1000)
       continue
     }
 
