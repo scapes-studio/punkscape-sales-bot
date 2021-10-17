@@ -4,6 +4,7 @@
     "heroku-postdeploy": "yarn ts-node checkSales.ts",
     "build": "echo \"No build required\" && exit 0",
     "start": "npx ts-node checkSales.ts",
+    "sales:watch": "npx ts-node watchSales.ts",
     "sales:save": "npx ts-node saveSales.ts",
     "sales:TIE": "npx ts-node tieSales.ts"
   },
