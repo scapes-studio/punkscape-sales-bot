@@ -62,7 +62,6 @@ async function main() {
   let afterLastSale = Date.parse(`${lastSale?.transaction.timestamp}Z`) / 1000 + 1 // +1 second
 
   while (true) {
-    await delay(parseInt(process.env.SECONDS! || '60') * 1000)
     let salesSince = await fetchLastSales({ occurred_after: afterLastSale.toString() })
 
     if (!salesSince.length) {
@@ -74,12 +73,14 @@ async function main() {
     afterLastSale = Date.parse(`${lastSale?.transaction.timestamp}Z`) / 1000 + 1
     console.info(`New last sale: #${lastSale.asset.token_id} - ${salesSince.length} fetched in total`)
 
-    await Promise.all(
-      salesSince?.reverse().map(async (sale: any) => {
+    await Promise.all([
+      ...salesSince?.reverse().map(async (sale: any) => {
         const message = buildMessage(sale);
         return channel.send(message)
-      })
-    );
+      }),
+      // Wait until the next iteration
+      delay(parseInt(process.env.SECONDS! || '60') * 1000)
+    ]);
   }
 }
 
