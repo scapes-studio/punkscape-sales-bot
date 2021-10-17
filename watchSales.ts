@@ -57,16 +57,18 @@ async function main() {
   const channel = await discordSetup();
   let lastSale = (await fetchLastSales({
     limit: '1',
-    occurred_before: '1634475000'
+    occurred_before: '1634477930'
   }))[0]
   let afterLastSale = Date.parse(`${lastSale?.transaction.timestamp}Z`) / 1000 + 1 // +1 second
 
   while (true) {
     let salesSince = await fetchLastSales({ occurred_after: afterLastSale.toString() })
 
+    console.info(`Waiting ${process.env.SECONDS}s until next call`)
+    await delay(parseInt(process.env.SECONDS! || '60') * 1000)
+
     if (!salesSince.length) {
       console.info(`No last sales since ${afterLastSale}`)
-      await delay(parseInt(process.env.SECONDS! || '60') * 1000)
       continue
     }
 
@@ -74,15 +76,13 @@ async function main() {
     afterLastSale = Date.parse(`${lastSale?.transaction.timestamp}Z`) / 1000 + 1
     console.info(`New last sale: #${lastSale.asset.token_id} - ${salesSince.length} fetched in total`)
 
-    await Promise.all([
-      ...salesSince?.reverse().map(async (sale: any) => {
+    await Promise.all(
+      salesSince?.reverse().map(async (sale: any) => {
         const message = buildMessage(sale);
         if (! message) return
         return channel.send(message)
       }),
-      // Wait until the next iteration
-      delay(parseInt(process.env.SECONDS! || '60') * 1000)
-    ]);
+    );
   }
 }
 
