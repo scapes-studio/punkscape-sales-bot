@@ -28,11 +28,11 @@ const buildMessage = (sale: any) => {
 
   return new Discord.MessageEmbed()
       .setColor('#eeeeee')
-      .setTitle(sale.asset.name + ' sold')
+      .setTitle(sale.asset.name + ' has a new owner')
       .setURL(sale.asset.permalink)
       .addFields(
-        { name: 'Buyer', value: `[${buyer}](https://opensea.io/${sale?.winner_account?.address})`, inline: true },
-        { name: 'Amount', value: `${price} ${ethers.constants.EtherSymbol} ($${usdPrice} USD)`, inline: true },
+        { name: 'Scaper', value: `[${buyer}](https://opensea.io/${sale?.winner_account?.address})`, inline: true },
+        { name: 'Price', value: `${price} ${ethers.constants.EtherSymbol} ($${usdPrice} USD)`, inline: true },
       )
       .setImage(sale.asset.image_url)
 }
