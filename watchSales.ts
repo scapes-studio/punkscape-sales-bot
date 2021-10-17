@@ -55,7 +55,10 @@ async function fetchLastSales(queryParams) {
 
 async function main() {
   const channel = await discordSetup();
-  let lastSale = (await fetchLastSales({ limit: '1', occurred_before: '1634461389' }))[0]
+  let lastSale = (await fetchLastSales({
+    limit: '1',
+    // occurred_before: '1634461389'
+  }))[0]
   let afterLastSale = Date.parse(`${lastSale?.transaction.timestamp}Z`) / 1000 + 1 // +1 second
 
   while (true) {
