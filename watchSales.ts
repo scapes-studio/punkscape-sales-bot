@@ -57,7 +57,7 @@ async function main() {
   const channel = await discordSetup();
   let lastSale = (await fetchLastSales({
     limit: '1',
-    // occurred_before: '1634475000'
+    occurred_before: '1634475000'
   }))[0]
   let afterLastSale = Date.parse(`${lastSale?.transaction.timestamp}Z`) / 1000 + 1 // +1 second
 
@@ -77,6 +77,7 @@ async function main() {
     await Promise.all([
       ...salesSince?.reverse().map(async (sale: any) => {
         const message = buildMessage(sale);
+        if (! message) return
         return channel.send(message)
       }),
       // Wait until the next iteration
