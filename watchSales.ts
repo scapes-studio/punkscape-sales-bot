@@ -1,22 +1,22 @@
-import 'dotenv/config';
-import Discord, { TextChannel } from 'discord.js';
-import fetch from 'node-fetch';
-import { ethers } from 'ethers';
-import shortAddress from './helpers/short-address';
-import { delay } from './helpers/time';
+import 'dotenv/config'
+import Discord, { TextChannel } from 'discord.js'
+import fetch from 'node-fetch'
+import { ethers } from 'ethers'
+import shortAddress from './helpers/short-address'
+import { delay } from './helpers/time'
 
-const discordBot = new Discord.Client();
+const discordBot = new Discord.Client()
 const discordSetup = async (): Promise<TextChannel> => {
   return new Promise<TextChannel>((resolve, reject) => {
     ['DISCORD_BOT_TOKEN', 'DISCORD_CHANNEL_ID'].forEach((envVar) => {
       if (!process.env[envVar]) reject(`${envVar} not set`)
     })
 
-    discordBot.login(process.env.DISCORD_BOT_TOKEN);
+    discordBot.login(process.env.DISCORD_BOT_TOKEN)
     discordBot.on('ready', async () => {
-      const channel = await discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID!);
-      resolve(channel as TextChannel);
-    });
+      const channel = await discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID!)
+      resolve(channel as TextChannel)
+    })
   })
 }
 
@@ -24,7 +24,7 @@ const buildMessage = (sale: any) => {
   const buyer = sale?.winner_account?.user?.username || shortAddress(sale?.winner_account?.address)
   const price = ethers.utils.formatEther(sale.total_price || '0')
   const usdPrice = (parseFloat(price) * parseFloat(sale?.payment_token?.usd_price || 3200))
-    .toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
+    .toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
   return new Discord.MessageEmbed()
       .setColor('#eeeeee')
@@ -54,7 +54,7 @@ async function fetchLastSales(queryParams) {
 }
 
 async function main() {
-  const channel = await discordSetup();
+  const channel = await discordSetup()
   let lastSale = (await fetchLastSales({
     limit: '1',
     occurred_before: process.env.BEFORE || (Date.now() / 1000 - 20),
@@ -78,16 +78,16 @@ async function main() {
 
     await Promise.all(
       salesSince?.reverse().map(async (sale: any) => {
-        const message = buildMessage(sale);
+        const message = buildMessage(sale)
         if (! message) return
         return channel.send(message)
-      }),
-    );
+      })
+    )
   }
 }
 
 main()
   .catch(error => {
-    console.error(error);
-    process.exit(1);
-  });
+    console.error(error)
+    process.exit(1)
+  })

@@ -4,19 +4,16 @@ import fetch from 'node-fetch';
 import { ethers } from 'ethers';
 import shortAddress from './helpers/short-address';
 
-
 async function main(): Promise<Array<{ seller: any, buyer: any, price: string, usdPrice: string }>> {
   const LIMIT = 100
   const params = new URLSearchParams({
     event_type: 'successful',
     only_opensea: 'false',
-    // occurred_after: hoursAgo.toString(),
     collection_slug: process.env.COLLECTION_SLUG!,
     asset_contract_address: process.env.CONTRACT_ADDRESS!,
     limit: LIMIT.toString(),
     offset: '0',
   })
-
 
   try {
     const sales = []
