@@ -31,7 +31,7 @@ const buildMessage = (sale: any) => {
       .setTitle(sale.asset.name + ' has a new owner')
       .setURL(sale.asset.permalink)
       .addFields(
-        { name: 'Scaper', value: `[${buyer}](https://opensea.io/${sale?.winner_account?.address})`, inline: true },
+        { name: 'Scapoor', value: `[${buyer}](https://opensea.io/${sale?.winner_account?.address})`, inline: true },
         { name: 'Price', value: `${price} ${ethers.constants.EtherSymbol} ($${usdPrice} USD)`, inline: true },
       )
       .setImage(sale.asset.image_url)
@@ -48,9 +48,14 @@ async function fetchLastSales(queryParams) {
     ...queryParams,
   })
 
-  const openSeaResponse = await (await fetch(`https://api.opensea.io/api/v1/events?${params}`)).json()
+  const response = await fetch(`https://api.opensea.io/api/v1/events?${params}`, {
+    headers: {
+      'X-API-KEY': process.env.OPENSEA_API_KEY,
+    },
+  })
+  const data = await response.json()
 
-  return openSeaResponse?.asset_events
+  return data?.asset_events
 }
 
 async function main() {
