@@ -14,15 +14,8 @@ const discordSetup = async (): Promise<TextChannel> => {
 
     discordBot.login(process.env.DISCORD_BOT_TOKEN)
     discordBot.on('ready', async () => {
-      console.log('ready')
       const channel = await discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID!)
       resolve(channel as TextChannel)
-    })
-    discordBot.on('debug', async (debug) => {
-      console.log('debug', debug)
-    })
-    discordBot.on('error', async (error) => {
-      console.log('error', error)
     })
   })
 }
@@ -55,7 +48,6 @@ async function fetchLastSales(queryParams) {
     ...queryParams,
   })
 
-  console.log('hi')
   const response = await fetch(`https://api.opensea.io/api/v1/events?${params}`, {
     headers: {
       'X-API-KEY': process.env.OPENSEA_API_KEY,
@@ -63,15 +55,11 @@ async function fetchLastSales(queryParams) {
   })
   const data = await response.json()
 
-  console.log('hi', data)
-
   return data?.asset_events
 }
 
 async function main() {
-  console.log('foo')
   const channel = await discordSetup()
-  console.log('hi')
   let lastSale = (await fetchLastSales({
     limit: '1',
     occurred_before: process.env.BEFORE || (Date.now() / 1000 - 20),
