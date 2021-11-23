@@ -72,10 +72,11 @@ async function fetchLastSales(queryParams) {
 }
 
 async function main() {
+  const occurred_before = process.env.BEFORE || (Date.now() / 1000 - 20)
   const channel = await discordSetup()
   let lastSale = (await fetchLastSales({
     limit: '1',
-    occurred_before: process.env.BEFORE || (Date.now() / 1000 - 20),
+    occurred_before,
   }))[0]
   let afterLastSale = Date.parse(`${lastSale?.transaction.timestamp}Z`) / 1000 + 1 // +1 second
 
@@ -86,7 +87,7 @@ async function main() {
     let salesSince = await fetchLastSales({ occurred_after: afterLastSale.toString() })
 
     if (!salesSince.length) {
-      console.info(`No last sales since ${afterLastSale}`)
+      console.info(`No last sales since ${afterLastSale || occurred_before}`)
       continue
     }
 
