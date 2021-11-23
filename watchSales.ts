@@ -17,6 +17,7 @@ const discordSetup = async (): Promise<TextChannel> => {
       const channel = await discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID!)
       resolve(channel as TextChannel)
     })
+    // discordBot.on('debug', async (e) => console.log(e))
   })
 }
 
@@ -53,9 +54,21 @@ async function fetchLastSales(queryParams) {
       'X-API-KEY': process.env.OPENSEA_API_KEY,
     },
   })
-  const data = await response.json()
 
-  return data?.asset_events
+  if (response.status !== 200) {
+    console.error(`OpenSea responded with ${response.status}`, response.statusText)
+    return []
+  }
+
+  try {
+    const data = await response.json()
+
+    return data?.asset_events
+  } catch (e) {
+    console.error(`Fault JSON response...`)
+  }
+
+  return []
 }
 
 async function main() {
@@ -67,10 +80,10 @@ async function main() {
   let afterLastSale = Date.parse(`${lastSale?.transaction.timestamp}Z`) / 1000 + 1 // +1 second
 
   while (true) {
-    let salesSince = await fetchLastSales({ occurred_after: afterLastSale.toString() })
-
     console.info(`Waiting ${process.env.SECONDS}s until next call`)
     await delay(parseInt(process.env.SECONDS! || '60') * 1000)
+
+    let salesSince = await fetchLastSales({ occurred_after: afterLastSale.toString() })
 
     if (!salesSince.length) {
       console.info(`No last sales since ${afterLastSale}`)
