@@ -4,44 +4,30 @@ import fetch from 'node-fetch'
 import { ethers } from 'ethers'
 import shortAddress from './helpers/short-address'
 import { delay } from './helpers/time'
+import SCAPE_DATA from './provenance-metadata.json'
 
 const discordBot = new Discord.Client()
-const discordSetup = async (): Promise<TextChannel> => {
-  return new Promise<TextChannel>((resolve, reject) => {
+const discordSetup = async (): Promise<TextChannel[]> => {
+  return new Promise<TextChannel[]>((resolve, reject) => {
     ['DISCORD_BOT_TOKEN', 'DISCORD_CHANNEL_ID'].forEach((envVar) => {
       if (!process.env[envVar]) reject(`${envVar} not set`)
     })
 
     discordBot.login(process.env.DISCORD_BOT_TOKEN)
     discordBot.on('ready', async () => {
-      const channel = await discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID!)
-      resolve(channel as TextChannel)
+      const salesChannel = await discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID!)
+      const listingsChannel = await discordBot.channels.fetch(process.env.DISCORD_LISTINGS_CHANNEL_ID!)
+
+      resolve([salesChannel as TextChannel, listingsChannel as TextChannel])
     })
     // discordBot.on('debug', async (e) => console.log(e))
   })
 }
 
-const buildMessage = (sale: any) => {
-  const buyer = sale?.winner_account?.user?.username || shortAddress(sale?.winner_account?.address)
-  const price = ethers.utils.formatEther(sale.total_price || '0')
-  const usdPrice = (parseFloat(price) * parseFloat(sale?.payment_token?.usd_price || 3200))
-    .toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-
-  return new Discord.MessageEmbed()
-      .setColor('#eeeeee')
-      .setTitle(sale.asset.name + ' has a new owner')
-      .setURL(sale.asset.permalink)
-      .addFields(
-        { name: 'Scapoor', value: `[${buyer}](https://opensea.io/${sale?.winner_account?.address})`, inline: true },
-        { name: 'Price', value: `${price} ${ethers.constants.EtherSymbol} ($${usdPrice} USD)`, inline: true },
-      )
-      .setImage(sale.asset.image_url)
-}
-
-async function fetchLastSales(queryParams) {
+async function fetchLastEvents(queryParams) {
   const params = new URLSearchParams({
     offset: '0',
-    event_type: 'successful',
+    // event_type: 'successful',
     only_opensea: 'false',
     limit: '30',
     collection_slug: process.env.COLLECTION_SLUG!,
@@ -71,35 +57,79 @@ async function fetchLastSales(queryParams) {
   return []
 }
 
+const EVENTS = {
+  successful: {
+    channel: null,
+    message: (sale: any) => {
+      const buyer = sale?.winner_account?.user?.username || shortAddress(sale?.winner_account?.address)
+      const price = ethers.utils.formatEther(sale.total_price || '0')
+      const usdPrice = (parseFloat(price) * parseFloat(sale?.payment_token?.usd_price || 3200))
+        .toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+
+      return new Discord.MessageEmbed()
+          .setColor('#eeeeee')
+          .setTitle(sale.asset.name + ' has a new owner')
+          .setURL(sale.asset.permalink)
+          .addFields(
+            { name: 'Scapoor', value: `[${buyer}](https://opensea.io/${sale?.winner_account?.address})`, inline: true },
+            { name: 'Price', value: `${price} ${ethers.constants.EtherSymbol} ($${usdPrice} USD)`, inline: true },
+            { name: 'Gallery 27 Date', value: SCAPE_DATA[sale.asset.token_id].date, inline: true },
+          )
+          .setImage(sale.asset.image_url)
+    },
+  },
+  created: {
+    channel: null,
+    message: (listing: any) => {
+      const price = ethers.utils.formatEther(listing.starting_price || '0')
+      const usdPrice = (parseFloat(price) * parseFloat(listing?.payment_token?.usd_price || 3200))
+        .toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+
+      return new Discord.MessageEmbed()
+          .setColor('#eeeeee')
+          .setTitle(`${listing.asset.name} was listed for ${price}${ethers.constants.EtherSymbol}`)
+          .setURL(listing.asset.permalink)
+          .addFields(
+            { name: 'Price', value: `${price} ${ethers.constants.EtherSymbol} ($${usdPrice} USD)`, inline: true },
+            { name: 'Gallery 27 Date', value: SCAPE_DATA[listing.asset.token_id].date, inline: true },
+          )
+          .setImage(listing.asset.image_url)
+    },
+  }
+}
+
 async function main() {
+  const [salesChannel, listingsChannel] = await discordSetup()
+  EVENTS.successful.channel = salesChannel
+  EVENTS.created.channel = listingsChannel
+
   const occurred_before = process.env.BEFORE || (Date.now() / 1000 - 20)
-  const channel = await discordSetup()
-  let lastSale = (await fetchLastSales({
+  let lastEvent = (await fetchLastEvents({
     limit: '1',
     occurred_before,
   }))[0]
-  let afterLastSale = Date.parse(`${lastSale?.transaction.timestamp}Z`) / 1000 + 1 // +1 second
+  let afterLastEvent = Date.parse(`${lastEvent?.created_date}Z`) / 1000 + 1 // +1 second
 
   while (true) {
     console.info(`Waiting ${process.env.SECONDS}s until next call`)
     await delay(parseInt(process.env.SECONDS! || '60') * 1000)
 
-    let salesSince = await fetchLastSales({ occurred_after: afterLastSale.toString() })
+    let eventsSince = await fetchLastEvents({ occurred_after: afterLastEvent.toString() })
 
-    if (!salesSince.length) {
-      console.info(`No last sales since ${afterLastSale || occurred_before}`)
+    if (!eventsSince.length) {
+      console.info(`No events since ${afterLastEvent || occurred_before}`)
       continue
     }
 
-    lastSale = salesSince[0]
-    afterLastSale = Date.parse(`${lastSale?.transaction.timestamp}Z`) / 1000 + 1
-    console.info(`New last sale: #${lastSale.asset.token_id} - ${salesSince.length} fetched in total`)
+    lastEvent = eventsSince[0]
+    afterLastEvent = Date.parse(`${lastEvent?.created_date}Z`) / 1000 + 1
+    console.info(`New events: #${lastEvent.asset.token_id} - ${eventsSince.length} fetched in total`)
 
     await Promise.all(
-      salesSince?.reverse().map(async (sale: any) => {
-        const message = buildMessage(sale)
+      eventsSince?.reverse().map(async (event: any) => {
+        const message = EVENTS[event.event_type]?.message(event)
         if (! message) return
-        return channel.send(message)
+        return EVENTS[event.event_type].channel.send(message)
       })
     )
   }
