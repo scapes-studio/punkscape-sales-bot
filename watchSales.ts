@@ -5,6 +5,7 @@ import { ethers } from 'ethers'
 import shortAddress from './helpers/short-address'
 import { delay } from './helpers/time'
 import SCAPE_DATA from './provenance-metadata.json'
+import { sendTweet } from './helpers/twitter'
 
 const discordBot = new Discord.Client()
 const discordSetup = async (): Promise<TextChannel[]> => {
@@ -66,16 +67,24 @@ const EVENTS = {
       const usdPrice = (parseFloat(price) * parseFloat(sale?.payment_token?.usd_price || 3200))
         .toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
-      return new Discord.MessageEmbed()
-          .setColor('#eeeeee')
-          .setTitle(sale.asset.name + ' has a new owner')
-          .setURL(sale.asset.permalink)
-          .addFields(
-            { name: 'Scapoor', value: `[${buyer}](https://opensea.io/${sale?.winner_account?.address})`, inline: true },
-            { name: 'Price', value: `${price} ${ethers.constants.EtherSymbol} ($${usdPrice} USD)`, inline: true },
-            { name: 'Gallery 27 Date', value: SCAPE_DATA[sale.asset.token_id].date, inline: true },
-          )
-          .setImage(sale.asset.image_url)
+      const priceString = `${price} ${ethers.constants.EtherSymbol} ($${usdPrice} USD)`
+
+      // Tweet
+      sendTweet(`${sale.asset.name} was just bought by ${buyer} for ${priceString} \n\nhttps://punkscape.xyz/scapes/${sale.asset.token_id}`)
+
+      // // DiscordMessage
+      // const discordMessage = new Discord.MessageEmbed()
+      //     .setColor('#eeeeee')
+      //     .setTitle(sale.asset.name + ' has a new owner')
+      //     .setURL(sale.asset.permalink)
+      //     .addFields(
+      //       { name: 'Scapoor', value: `[${buyer}](https://opensea.io/${sale?.winner_account?.address})`, inline: true },
+      //       { name: 'Price', value: priceString, inline: true },
+      //       { name: 'Gallery 27 Date', value: SCAPE_DATA[sale.asset.token_id].date, inline: true },
+      //     )
+      //     .setImage(sale.asset.image_url)
+
+      // EVENTS.successful.channel.send(discordMessage)
     },
   },
   created: {
@@ -85,15 +94,17 @@ const EVENTS = {
       const usdPrice = (parseFloat(price) * parseFloat(listing?.payment_token?.usd_price || 3200))
         .toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
-      return new Discord.MessageEmbed()
-          .setColor('#eeeeee')
-          .setTitle(`${listing.asset.name} was listed for ${price}${ethers.constants.EtherSymbol}`)
-          .setURL(listing.asset.permalink)
-          .addFields(
-            { name: 'Price', value: `${price} ${ethers.constants.EtherSymbol} ($${usdPrice} USD)`, inline: true },
-            { name: 'Gallery 27 Date', value: SCAPE_DATA[listing.asset.token_id].date, inline: true },
-          )
-          .setImage(listing.asset.image_url)
+      // const discordMessage = new Discord.MessageEmbed()
+      //     .setColor('#eeeeee')
+      //     .setTitle(`${listing.asset.name} was listed for ${price}${ethers.constants.EtherSymbol}`)
+      //     .setURL(listing.asset.permalink)
+      //     .addFields(
+      //       { name: 'Price', value: `${price} ${ethers.constants.EtherSymbol} ($${usdPrice} USD)`, inline: true },
+      //       { name: 'Gallery 27 Date', value: SCAPE_DATA[listing.asset.token_id].date, inline: true },
+      //     )
+      //     .setImage(listing.asset.image_url)
+
+      // EVENTS.created.channel.send(discordMessage)
     },
   }
 }
@@ -127,9 +138,7 @@ async function main() {
 
     await Promise.all(
       eventsSince?.reverse().map(async (event: any) => {
-        const message = EVENTS[event.event_type]?.message(event)
-        if (! message) return
-        return EVENTS[event.event_type].channel.send(message)
+        EVENTS[event.event_type]?.message(event)
       })
     )
   }
