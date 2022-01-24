@@ -8,8 +8,6 @@ const client = new TwitterApi({
   accessToken: process.env.TWITTER_ACCESS_TOKEN,
   accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
 })
-// const client = new TwitterApi(process.env.TWITTER_BEARER)
-// const writeClient = twitterClient.readWrite
 
 export const uploadMedia = async (url) => {
   try {
