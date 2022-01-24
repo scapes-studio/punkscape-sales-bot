@@ -72,19 +72,19 @@ const EVENTS = {
       // Tweet
       sendTweet(`${sale.asset.name} was just bought by ${buyer} for ${priceString} \n\nhttps://punkscape.xyz/scapes/${sale.asset.token_id}`)
 
-      // // DiscordMessage
-      // const discordMessage = new Discord.MessageEmbed()
-      //     .setColor('#eeeeee')
-      //     .setTitle(sale.asset.name + ' has a new owner')
-      //     .setURL(sale.asset.permalink)
-      //     .addFields(
-      //       { name: 'Scapoor', value: `[${buyer}](https://opensea.io/${sale?.winner_account?.address})`, inline: true },
-      //       { name: 'Price', value: priceString, inline: true },
-      //       { name: 'Gallery 27 Date', value: SCAPE_DATA[sale.asset.token_id].date, inline: true },
-      //     )
-      //     .setImage(sale.asset.image_url)
+      // DiscordMessage
+      const discordMessage = new Discord.MessageEmbed()
+          .setColor('#eeeeee')
+          .setTitle(sale.asset.name + ' has a new owner')
+          .setURL(sale.asset.permalink)
+          .addFields(
+            { name: 'Scapoor', value: `[${buyer}](https://opensea.io/${sale?.winner_account?.address})`, inline: true },
+            { name: 'Price', value: priceString, inline: true },
+            { name: 'Gallery 27 Date', value: SCAPE_DATA[sale.asset.token_id].date, inline: true },
+          )
+          .setImage(sale.asset.image_url)
 
-      // EVENTS.successful.channel.send(discordMessage)
+      EVENTS.successful.channel.send(discordMessage)
     },
   },
   created: {
@@ -94,17 +94,17 @@ const EVENTS = {
       const usdPrice = (parseFloat(price) * parseFloat(listing?.payment_token?.usd_price || 3200))
         .toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
-      // const discordMessage = new Discord.MessageEmbed()
-      //     .setColor('#eeeeee')
-      //     .setTitle(`${listing.asset.name} was listed for ${price}${ethers.constants.EtherSymbol}`)
-      //     .setURL(listing.asset.permalink)
-      //     .addFields(
-      //       { name: 'Price', value: `${price} ${ethers.constants.EtherSymbol} ($${usdPrice} USD)`, inline: true },
-      //       { name: 'Gallery 27 Date', value: SCAPE_DATA[listing.asset.token_id].date, inline: true },
-      //     )
-      //     .setImage(listing.asset.image_url)
+      const discordMessage = new Discord.MessageEmbed()
+          .setColor('#eeeeee')
+          .setTitle(`${listing.asset.name} was listed for ${price}${ethers.constants.EtherSymbol}`)
+          .setURL(listing.asset.permalink)
+          .addFields(
+            { name: 'Price', value: `${price} ${ethers.constants.EtherSymbol} ($${usdPrice} USD)`, inline: true },
+            { name: 'Gallery 27 Date', value: SCAPE_DATA[listing.asset.token_id].date, inline: true },
+          )
+          .setImage(listing.asset.image_url)
 
-      // EVENTS.created.channel.send(discordMessage)
+      EVENTS.created.channel.send(discordMessage)
     },
   }
 }
