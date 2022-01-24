@@ -68,9 +68,10 @@ const EVENTS = {
         .toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
       const priceString = `${price} ${ethers.constants.EtherSymbol} ($${usdPrice} USD)`
+      const date = SCAPE_DATA[sale.asset.token_id].date
 
       // Tweet
-      sendTweet(`${sale.asset.name} was just bought by ${buyer} for ${priceString} \n\nhttps://punkscape.xyz/scapes/${sale.asset.token_id}`)
+      sendTweet(`${sale.asset.name} was just bought by ${buyer} for ${priceString}. \n\n Its @27YearScapes date is ${date}\n\nhttps://punkscape.xyz/scapes/${sale.asset.token_id}`)
 
       // DiscordMessage
       const discordMessage = new Discord.MessageEmbed()
@@ -80,7 +81,7 @@ const EVENTS = {
           .addFields(
             { name: 'Scapoor', value: `[${buyer}](https://opensea.io/${sale?.winner_account?.address})`, inline: true },
             { name: 'Price', value: priceString, inline: true },
-            { name: 'Gallery 27 Date', value: SCAPE_DATA[sale.asset.token_id].date, inline: true },
+            { name: 'Gallery 27 Date', value: date, inline: true },
           )
           .setImage(sale.asset.image_url)
 
