@@ -21,13 +21,12 @@ const discordSetup = async (): Promise<TextChannel[]> => {
 
       resolve([salesChannel as TextChannel, listingsChannel as TextChannel])
     })
-    // discordBot.on('debug', async (e) => console.log(e))
   })
 }
 
 async function fetchLastEvents(queryParams) {
   const params = new URLSearchParams({
-    offset: '0',
+    offset: queryParams.offset || '0',
     // event_type: 'successful',
     only_opensea: 'false',
     limit: '100',
@@ -36,32 +35,46 @@ async function fetchLastEvents(queryParams) {
     ...queryParams,
   })
 
-  const response = await fetch(`https://api.opensea.io/api/v1/events?${params}`, {
-    headers: {
-      'X-API-KEY': process.env.OPENSEA_API_KEY,
-    },
-  })
+  let asset_events = []
+  let loadMore = true
 
-  if (response.status !== 200) {
-    console.error(`OpenSea responded with ${response.status}`, response.statusText)
-    return []
+  while (loadMore) {
+    console.log(`https://api.opensea.io/api/v1/events?${params}`)
+    const response = await fetch(`https://api.opensea.io/api/v1/events?${params}`, {
+      headers: {
+        'X-API-KEY': process.env.OPENSEA_API_KEY,
+      },
+    })
+
+    if (response.status !== 200) {
+      console.error(`OpenSea responded with ${response.status}`, response.statusText)
+      loadMore = false
+    }
+
+    try {
+      const data = await response.json()
+
+      asset_events = asset_events.concat(data?.asset_events)
+
+      // If we're done getting paginated items...
+      if (data?.asset_events.length % parseInt(params.get('limit')) !== 0 || data?.asset_events.length <= 1) {
+        loadMore = false
+      } else {
+        params.set('offset', (parseInt(params.get('offset')) + parseInt(params.get('limit'))).toString())
+        console.log(`Set offset to ${params.get('offset')}`)
+      }
+    } catch (e) {
+      console.error(`Fault JSON response...`)
+    }
   }
 
-  try {
-    const data = await response.json()
-
-    return data?.asset_events
-  } catch (e) {
-    console.error(`Fault JSON response...`)
-  }
-
-  return []
+  return asset_events
 }
 
 const EVENTS = {
   successful: {
     channel: null,
-    message: (sale: any) => {
+    message: async (sale: any) => {
       const buyer = sale?.winner_account?.user?.username || shortAddress(sale?.winner_account?.address)
       const price = ethers.utils.formatEther(sale.total_price || '0')
       const usdPrice = (parseFloat(price) * parseFloat(sale?.payment_token?.usd_price || 3200))
@@ -85,7 +98,12 @@ const EVENTS = {
           )
           .setImage(sale.asset.image_url)
 
-      EVENTS.successful.channel.send(discordMessage)
+      try {
+        console.log('sending successful sale discord message')
+        await EVENTS.successful.channel.send(discordMessage)
+      } catch (e) {
+        console.error(e)
+      }
     },
   },
   created: {
@@ -135,11 +153,12 @@ async function main() {
 
     lastEvent = eventsSince[0]
     afterLastEvent = Date.parse(`${lastEvent?.created_date}Z`) / 1000 + 1
-    console.info(`New events: #${lastEvent.asset.token_id} - ${eventsSince.length} fetched in total`)
+    console.info(`New events until #${lastEvent.asset.token_id} - ${eventsSince.length} fetched in total`)
 
     await Promise.all(
       eventsSince?.reverse().map(async (event: any) => {
-        EVENTS[event.event_type]?.message(event)
+        console.log('event ', event.asset.token_id, event.event_type)
+        await EVENTS[event.event_type]?.message(event)
       })
     )
   }
