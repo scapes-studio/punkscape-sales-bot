@@ -128,23 +128,24 @@ const EVENTS = {
   }
 }
 
-async function main() {
-  const [salesChannel, listingsChannel] = await discordSetup()
-  EVENTS.successful.channel = salesChannel
-  EVENTS.created.channel = listingsChannel
-
+const watchEvents = async (type) => {
   const occurred_before = process.env.BEFORE || (Date.now() / 1000 - 20)
+
   let lastEvent = (await fetchLastEvents({
     limit: '1',
     occurred_before,
+    event_type: type,
   }))[0]
-  let afterLastEvent = Date.parse(`${lastEvent?.created_date}Z`) / 1000 + 1 // +1 second
+  let afterLastEvent = Math.round(Date.parse(`${lastEvent?.created_date}Z`) / 1000) + 1 // +1 second
 
   while (true) {
     console.info(`Waiting ${process.env.SECONDS}s until next call`)
     await delay(parseInt(process.env.SECONDS! || '60') * 1000)
 
-    let eventsSince = await fetchLastEvents({ occurred_after: afterLastEvent.toString() })
+    let eventsSince = await fetchLastEvents({
+      occurred_after: afterLastEvent.toString(),
+      event_type: type,
+    })
 
     if (!eventsSince.length) {
       console.info(`No events since ${afterLastEvent || occurred_before}`)
@@ -152,7 +153,7 @@ async function main() {
     }
 
     lastEvent = eventsSince[0]
-    afterLastEvent = Date.parse(`${lastEvent?.created_date}Z`) / 1000 + 1
+    afterLastEvent = Math.round(Date.parse(`${lastEvent?.created_date}Z`) / 1000) + 1
     console.info(`New events until #${lastEvent.asset.token_id} - ${eventsSince.length} fetched in total`)
 
     await Promise.all(
@@ -162,6 +163,16 @@ async function main() {
       })
     )
   }
+}
+
+async function main() {
+  const [salesChannel, listingsChannel] = await discordSetup()
+  EVENTS.successful.channel = salesChannel
+  EVENTS.created.channel = listingsChannel
+
+  watchEvents('successful')
+  await delay(parseInt(process.env.SECONDS! || '60') / 2 * 1000)
+  watchEvents('created')
 }
 
 main()
