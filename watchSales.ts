@@ -84,7 +84,7 @@ const EVENTS = {
       const date = SCAPE_DATA[sale.asset.token_id].date
 
       // Tweet
-      sendTweet(`${sale.asset.name} was just bought by ${buyer} for ${priceString}. \n\n Its Gallery 27 date is ${date}\n\nhttps://punkscape.xyz/scapes/${sale.asset.token_id}`)
+      sendTweet(`${sale.asset.name} was just bought by ${buyer} for ${priceString}. \n\nIts Gallery 27 date is ${date}\n\nhttps://punkscape.xyz/scapes/${sale.asset.token_id}`)
 
       // DiscordMessage
       const discordMessage = new Discord.MessageEmbed()
