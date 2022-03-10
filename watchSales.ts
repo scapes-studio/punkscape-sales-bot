@@ -24,15 +24,15 @@ const discordSetup = async (): Promise<TextChannel[]> => {
   })
 }
 
-async function fetchLastEvents(queryParams) {
+async function fetchLastEvents(queryParams, after) {
   const params = new URLSearchParams({
-    offset: queryParams.offset || '0',
     // event_type: 'successful',
     only_opensea: 'false',
     limit: '100',
     collection_slug: process.env.COLLECTION_SLUG!,
     asset_contract_address: process.env.CONTRACT_ADDRESS!,
     ...queryParams,
+    cursor: '',
   })
 
   let asset_events = []
@@ -54,21 +54,25 @@ async function fetchLastEvents(queryParams) {
     try {
       const data = await response.json()
 
-      asset_events = asset_events.concat(data?.asset_events)
+      const events = data?.asset_events.filter(e => {
+        return e.asset?.token_id && new Date(e.created_date) > after
+      })
+      asset_events = asset_events.concat(events)
 
-      // If we're done getting paginated items...
-      if (data?.asset_events.length % parseInt(params.get('limit')) !== 0 || data?.asset_events.length <= 1) {
-        loadMore = false
+      const hasMore = data?.asset_events.length === events.length
+      if (hasMore) {
+        console.log(`Next page: ${data.next}`)
+        params.set('cursor', data.next)
+        await delay(500)
       } else {
-        params.set('offset', (parseInt(params.get('offset')) + parseInt(params.get('limit'))).toString())
-        console.log(`Set offset to ${params.get('offset')}`)
+        loadMore = false
       }
     } catch (e) {
-      console.error(`Fault JSON response...`)
+      console.error(e)
     }
   }
 
-  return asset_events
+  return asset_events.reverse()
 }
 
 const EVENTS = {
@@ -129,35 +133,28 @@ const EVENTS = {
 }
 
 const watchEvents = async (type) => {
-  const occurred_before = process.env.BEFORE || (Date.now() / 1000 - 20)
-
-  let lastEvent = (await fetchLastEvents({
-    limit: '1',
-    occurred_before,
-    event_type: type,
-  }))[0]
-  let afterLastEvent = Math.round(Date.parse(`${lastEvent?.created_date}Z`) / 1000) + 1 // +1 second
+  let after = new Date((parseInt(process.env.BEFORE) * 1000) || Date.now())
 
   while (true) {
     console.info(`Waiting ${process.env.SECONDS}s until next call`)
     await delay(parseInt(process.env.SECONDS! || '60') * 1000)
 
-    let eventsSince = await fetchLastEvents({
-      occurred_after: afterLastEvent.toString(),
+    let events = await fetchLastEvents({
       event_type: type,
-    })
+    }, after)
 
-    if (!eventsSince.length) {
-      console.info(`No events since ${afterLastEvent || occurred_before}`)
+    if (!events.length) {
+      console.info(`No new events`)
       continue
     }
 
-    lastEvent = eventsSince[0]
-    afterLastEvent = Math.round(Date.parse(`${lastEvent?.created_date}Z`) / 1000) + 1
-    console.info(`New events until #${lastEvent.asset.token_id} - ${eventsSince.length} fetched in total`)
+    console.info(`${events.length} new events`)
+
+    after = new Date(events[events.length - 1].created_date)
+    console.info(`Latest event: ${events[0].created_date}`, after, events[0].asset.token_id)
 
     await Promise.all(
-      eventsSince?.reverse().map(async (event: any) => {
+      events?.map(async (event: any) => {
         console.log('event ', event.asset.token_id, event.event_type)
         await EVENTS[event.event_type]?.message(event)
       })
