@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import Discord, { TextChannel } from 'discord.js'
+import { Client, MessageEmbed, TextChannel } from 'discord.js'
 import fetch from 'node-fetch'
 import { ethers } from 'ethers'
 import shortAddress from './helpers/short-address'
@@ -7,20 +7,23 @@ import { delay } from './helpers/time'
 import SCAPE_DATA from './provenance-metadata.json'
 import { sendTweet } from './helpers/twitter'
 
-const discordBot = new Discord.Client()
+const discordBot = new Client({
+  intents: [],
+})
 const discordSetup = async (): Promise<TextChannel[]> => {
   return new Promise<TextChannel[]>((resolve, reject) => {
     ['DISCORD_BOT_TOKEN', 'DISCORD_CHANNEL_ID'].forEach((envVar) => {
       if (!process.env[envVar]) reject(`${envVar} not set`)
     })
 
-    discordBot.login(process.env.DISCORD_BOT_TOKEN)
-    discordBot.on('ready', async () => {
+    discordBot.once('ready', async () => {
       const salesChannel = await discordBot.channels.fetch(process.env.DISCORD_CHANNEL_ID!)
       const listingsChannel = await discordBot.channels.fetch(process.env.DISCORD_LISTINGS_CHANNEL_ID!)
 
       resolve([salesChannel as TextChannel, listingsChannel as TextChannel])
     })
+
+    discordBot.login(process.env.DISCORD_BOT_TOKEN)
   })
 }
 
@@ -91,7 +94,7 @@ const EVENTS = {
       sendTweet(`${sale.asset.name} was just bought by ${buyer} for ${priceString}. \n\nIts Gallery 27 date is ${date}\n\nhttps://punkscape.xyz/scapes/${sale.asset.token_id}`)
 
       // DiscordMessage
-      const discordMessage = new Discord.MessageEmbed()
+      const discordMessage = new MessageEmbed()
           .setColor('#eeeeee')
           .setTitle(sale.asset.name + ' has a new owner')
           .setURL(sale.asset.permalink)
@@ -104,7 +107,7 @@ const EVENTS = {
 
       try {
         console.log('sending successful sale discord message')
-        await EVENTS.successful.channel.send(discordMessage)
+        await EVENTS.successful.channel.send({ embeds: [discordMessage] })
       } catch (e) {
         console.error(e)
       }
@@ -117,7 +120,7 @@ const EVENTS = {
       const usdPrice = (parseFloat(price) * parseFloat(listing?.payment_token?.usd_price || 3200))
         .toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
-      const discordMessage = new Discord.MessageEmbed()
+      const discordMessage = new MessageEmbed()
           .setColor('#eeeeee')
           .setTitle(`${listing.asset.name} was listed for ${price}${ethers.constants.EtherSymbol}`)
           .setURL(listing.asset.permalink)
@@ -127,7 +130,7 @@ const EVENTS = {
           )
           .setImage(listing.asset.image_url)
 
-      EVENTS.created.channel.send(discordMessage)
+      EVENTS.created.channel.send({ embeds: [discordMessage] })
     },
   }
 }
