@@ -116,6 +116,10 @@ const EVENTS = {
   created: {
     channel: null,
     message: (listing: any) => {
+      if (listing?.seller?.address === '0x1259a5c3d6a30a18ee1e04daa2c6e43d4c442632') {
+        console.log('blacklisted')
+        return
+      }
       const price = ethers.utils.formatEther(listing.starting_price || '0')
       const usdPrice = (parseFloat(price) * parseFloat(listing?.payment_token?.usd_price || 3200))
         .toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
