@@ -3,9 +3,7 @@
   "scripts": {
     "build": "echo \"No build required\" && exit 0",
     "start": "npm run sales:watch",
-    "sales:watch": "npx ts-node watchSales.ts",
-    "sales:save": "npx ts-node saveSales.ts",
-    "sales:TIE": "npx ts-node tieSales.ts"
+    "sales:watch": "npx ts-node watchSales.ts"
   },
   "dependencies": {
     "@types/node": "^14.14.36",
