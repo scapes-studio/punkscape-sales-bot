@@ -101,7 +101,7 @@ const EVENTS = {
           .addFields(
             { name: 'Scapoor', value: `[${buyer}](https://opensea.io/${sale?.winner_account?.address})`, inline: true },
             { name: 'Price', value: priceString, inline: true },
-            { name: 'Gallery 27 Date', value: date, inline: true },
+            { name: 'Gallery 27 Date', value: `[${date}](https://punkscape.xyz/gallery27/punkscape/${sale.asset.token_id})`, inline: true },
           )
           .setImage(sale.asset.image_url)
 
@@ -130,7 +130,8 @@ const EVENTS = {
           .setURL(listing.asset.permalink)
           .addFields(
             { name: 'Price', value: `${price} ${ethers.constants.EtherSymbol} ($${usdPrice} USD)`, inline: true },
-            { name: 'Gallery 27 Date', value: SCAPE_DATA[listing.asset.token_id].date, inline: true },
+            { name: 'Gallery 27 Date', value: `[${SCAPE_DATA[listing.asset.token_id].date}](https://punkscape.xyz/gallery27/punkscape/${listing.asset.token_id})`, inline: true },
+            { name: 'Links', value: `[Official](https://punkscape.xyz/scapes/${listing.asset.token_id})`, inline: true },
           )
           .setImage(listing.asset.image_url)
 
