@@ -8,7 +8,7 @@ import SCAPE_DATA from './provenance-metadata.json'
 import { sendTweet } from './helpers/twitter'
 
 const BLACKLIST = [
-  '0x83F05c2F9b6D309c652C50799d16Db51542E05f1',
+  '0x83f05c2f9b6d309c652c50799d16db51542e05f1',
   '0x1259a5c3d6a30a18ee1e04daa2c6e43d4c442632',
 ]
 
