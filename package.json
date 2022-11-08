@@ -2,11 +2,12 @@
   "license": "MIT",
   "scripts": {
     "build": "echo \"No build required\" && exit 0",
-    "start": "npm run sales:watch",
-    "sales:watch": "npx ts-node watchSales.ts"
+    "start": "npx ts-node index.ts"
   },
   "dependencies": {
+    "@reservoir0x/reservoir-kit-client": "^0.1.13",
     "@types/node": "^14.14.36",
+    "api": "^5.0.1",
     "date-fns": "^2.19.0",
     "discord.js": "^13.8.1",
     "dotenv": "^8.2.0",
