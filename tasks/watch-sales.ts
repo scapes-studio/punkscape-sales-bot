@@ -66,7 +66,7 @@ export const reportSale = async (sale: Sale) => {
       .setTitle(`Scape #${sale.token.tokenId} has a new owner`)
       .setURL(`https://punkscape.xyz/scapes/${ID}`)
       .addFields(
-        { name: 'Scapoor', value: `[${buyer}](https://punkscape.xyz/accounts/${sale.from})`, inline: true },
+        { name: 'Scapoor', value: `[${buyer}](https://punkscape.xyz/accounts/${sale.to})`, inline: true },
         { name: 'Price', value: priceString, inline: true },
         { name: 'Gallery 27 Date', value: `[${date}](https://punkscape.xyz/gallery27/punkscape/${ID})`, inline: true },
       )
