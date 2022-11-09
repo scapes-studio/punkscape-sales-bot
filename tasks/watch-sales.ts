@@ -57,7 +57,7 @@ const fetchSales = async (contract: string[], from: string, to: string) => {
       accept: '*/*'
     })
     const response = data as paths['/sales/v4']['get']['responses']['200']['schema']
-    return response.sales
+    return response.sales.reverse()
   } catch (e) {
     console.log(e)
   }
