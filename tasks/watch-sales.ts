@@ -1,9 +1,10 @@
-import { ColorResolvable, EmbedFieldData, MessageEmbed, TextChannel } from 'discord.js'
+import { ColorResolvable, EmbedFieldData, MessageEmbed } from 'discord.js'
 import sdk from './../helpers/api'
 import { paths } from '@reservoir0x/reservoir-kit-client'
 import shortAddress from '../helpers/short-address'
 import { CHANNELS } from '../helpers/discord'
 import { sendTweet } from '../helpers/twitter'
+import provider from '../helpers/rpc-provider'
 import { delay, now } from '../helpers/time'
 
 type Sale = paths['/sales/v4']['get']['responses']['200']['schema']['sales'][0]
@@ -64,7 +65,7 @@ const fetchSales = async (contract: string[], from: string, to: string) => {
 }
 
 export const reportSale = async (sale: Sale, config: SaleWatcherDefinition) => {
-  const buyer = shortAddress(sale.to)
+  const buyer = await provider.lookupAddress(sale.to) || shortAddress(sale.to)
   const price = sale.price.amount.native
   const usdPrice = sale.price.amount.usd?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
   const priceString = `${price} ${sale.price.currency.name} ($${usdPrice} USD)`
