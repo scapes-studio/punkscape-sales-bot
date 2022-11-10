@@ -61,6 +61,7 @@ const fetchSales = async (contract: string[], from: string, to: string) => {
     return response.sales.reverse()
   } catch (e) {
     console.log(e)
+    return []
   }
 }
 
