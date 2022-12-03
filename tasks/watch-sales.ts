@@ -31,10 +31,10 @@ type SaleWatcherDefinition = {
 }
 
 const watchSales = async (config: SaleWatcherDefinition) => {
-  let since = config.from || now().toString()
+  let since = config.from || (now() - 120).toString()
   try {
     while (true) {
-      const currentTime = now()
+      const currentTime = now() - 60
       const sales = await fetchSales(config.contract, since, (currentTime - 1).toString())
       console.log(`Found ${sales.length} new sales events since ${since}`)
       for (const sale of sales) {
