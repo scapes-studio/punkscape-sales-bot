@@ -22,7 +22,7 @@ const init = async () => {
     },
     url: config => `https://scapes.xyz/scapes/${config.ID}`,
     tweet: config =>
-      `Scape #${config.ID} was just bought by ${config.buyer} for ${config.priceString}. \n\nIts Gallery 27 date is ${SCAPE_DATA[config.ID].date}\n\nhttps://punkscape.xyz/scapes/${config.ID}`,
+      `Scape #${config.ID} was just bought by ${config.buyer} for ${config.priceString}. \n\nIts Gallery 27 date is ${SCAPE_DATA[config.ID].date}\n\nhttps://scapes.xyz/scapes/${config.ID}`,
   })
 
   await delay(10 * 1000) // wait 10 seconds
