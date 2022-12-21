@@ -9,7 +9,7 @@ const init = async () => {
   await discordSetup()
 
   watchSales({
-    contract: [ process.env.PUNKSCAPES_CONTRACT_ADDRESS ],
+    contract: [ process.env.SCAPES_CONTRACT_ADDRESS ],
     name: 'Scape',
     from: process.env.START_SCAPES,
     discord: {
